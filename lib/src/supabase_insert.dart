@@ -15,7 +15,7 @@ class SupabaseInsert {
 	);
 
 
-	SupabaseClient init()  {
+	Future<SupabaseClient> init() async {
 		return SupabaseClient(url, anonKey);
 	}
 
