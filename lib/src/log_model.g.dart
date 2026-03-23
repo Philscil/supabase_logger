@@ -17,13 +17,18 @@ const ErrorLogSchema = CollectionSchema(
   name: r'ErrorLog',
   id: -3239769249812896069,
   properties: {
-    r'message': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 0,
+      name: r'createdAt',
+      type: IsarType.string,
+    ),
+    r'message': PropertySchema(
+      id: 1,
       name: r'message',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'uid',
       type: IsarType.string,
     )
@@ -48,6 +53,7 @@ int _errorLogEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.createdAt.length * 3;
   bytesCount += 3 + object.message.length * 3;
   bytesCount += 3 + object.uid.length * 3;
   return bytesCount;
@@ -59,8 +65,9 @@ void _errorLogSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.message);
-  writer.writeString(offsets[1], object.uid);
+  writer.writeString(offsets[0], object.createdAt);
+  writer.writeString(offsets[1], object.message);
+  writer.writeString(offsets[2], object.uid);
 }
 
 ErrorLog _errorLogDeserialize(
@@ -70,9 +77,10 @@ ErrorLog _errorLogDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ErrorLog();
+  object.createdAt = reader.readString(offsets[0]);
   object.id = id;
-  object.message = reader.readString(offsets[0]);
-  object.uid = reader.readString(offsets[1]);
+  object.message = reader.readString(offsets[1]);
+  object.uid = reader.readString(offsets[2]);
   return object;
 }
 
@@ -86,6 +94,8 @@ P _errorLogDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -181,6 +191,137 @@ extension ErrorLogQueryWhere on QueryBuilder<ErrorLog, ErrorLog, QWhereClause> {
 
 extension ErrorLogQueryFilter
     on QueryBuilder<ErrorLog, ErrorLog, QFilterCondition> {
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'createdAt',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> createdAtIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition>
+      createdAtIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'createdAt',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<ErrorLog, ErrorLog, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -501,6 +642,18 @@ extension ErrorLogQueryLinks
     on QueryBuilder<ErrorLog, ErrorLog, QFilterCondition> {}
 
 extension ErrorLogQuerySortBy on QueryBuilder<ErrorLog, ErrorLog, QSortBy> {
+  QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> sortByMessage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'message', Sort.asc);
@@ -528,6 +681,18 @@ extension ErrorLogQuerySortBy on QueryBuilder<ErrorLog, ErrorLog, QSortBy> {
 
 extension ErrorLogQuerySortThenBy
     on QueryBuilder<ErrorLog, ErrorLog, QSortThenBy> {
+  QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<ErrorLog, ErrorLog, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -567,6 +732,13 @@ extension ErrorLogQuerySortThenBy
 
 extension ErrorLogQueryWhereDistinct
     on QueryBuilder<ErrorLog, ErrorLog, QDistinct> {
+  QueryBuilder<ErrorLog, ErrorLog, QDistinct> distinctByCreatedAt(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ErrorLog, ErrorLog, QDistinct> distinctByMessage(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -587,6 +759,12 @@ extension ErrorLogQueryProperty
   QueryBuilder<ErrorLog, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ErrorLog, String, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 

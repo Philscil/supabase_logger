@@ -19,10 +19,10 @@ class SupabaseInsert {
 		return SupabaseClient(url, anonKey);
 	}
 
-	Future<void> insert(SupabaseClient client, String uid, String message) async {
+	Future<void> insert(SupabaseClient client, String uid, String message, String createdAt) async {
 		await client
 			.from(tableName)
-			.insert({'user_id': uid, 'error_message': message});
+			.insert({'created_at': createdAt, 'user_id': uid, 'error_message': message});
 
 		return;
 	}

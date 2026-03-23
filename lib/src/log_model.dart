@@ -8,4 +8,5 @@ class ErrorLog {
 
     late String uid;
     late String message;
+    late String createdAt;
 }
