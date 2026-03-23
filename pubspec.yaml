@@ -1,17 +1,18 @@
 name: supabase_logger
-description: A starting point for Dart libraries or applications.
+description: Logs Errors to a Supabase table.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/Philscil/supabase_logger
 
 environment:
   sdk: ^3.11.1
 
-# Add regular dependencies here.
 dependencies:
-  http: ^1.3.0
   supabase: ^2.10.2
   dotenv: ^4.2.0
+  isar: ^3.1.0+1
 
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.25.6
+  isar_generator: ^3.1.0+1
+  build_runner: any
