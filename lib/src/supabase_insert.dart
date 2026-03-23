@@ -8,6 +8,8 @@ class SupabaseInsert {
 	final String anonKey;
 	final String tableName;
 	
+    /// constructor
+
 	SupabaseInsert (
 		this.url,
 		this.anonKey,
@@ -15,9 +17,14 @@ class SupabaseInsert {
 	);
 
 
+    /// initializes supabase client with the supabase dart package
+
 	Future<SupabaseClient> init() async {
 		return SupabaseClient(url, anonKey);
 	}
+
+
+    /// inserts a new row in supabase by using the supabase dart package
 
 	Future<void> insert(SupabaseClient client, String uid, String message, String createdAt) async {
 		await client

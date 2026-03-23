@@ -19,6 +19,8 @@ class SupabaseLogger {
 
 	late Isar isar;
 
+    /// constructor
+
 	SupabaseLogger(
 		this.path,
 		this.url,
@@ -27,6 +29,9 @@ class SupabaseLogger {
 		this.uid,
 
 	) : supabaseInsert = SupabaseInsert(url, anonKey, tableName);
+
+
+    /// initializes the Supabase client & the Isar db
 
 	Future<void> init() async {
 		client = await supabaseInsert.init();
@@ -38,6 +43,9 @@ class SupabaseLogger {
 
 		return;
 	}
+
+    /// tries to insert the data to Supabase
+    /// if no network connection, the data is instead stored locally, with a max. of 50 local logs
 
 	Future<void> insert(String message) async {
 		try {
@@ -72,6 +80,8 @@ class SupabaseLogger {
 
 		return;
 	}
+
+    /// inserts 10 logs from the local storage to Supabase
 
 	Future<void> sync() async {
 		try {
