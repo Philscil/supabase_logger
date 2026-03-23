@@ -1,16 +1,16 @@
-import 'package:supabase_logger/supabase_logger.dart';
-import 'package:test/test.dart';
+import 'package:dotenv/dotenv.dart';
 
-void main() {
-  group('A group of tests', () {
-    final awesome = Awesome();
+import 'package:supabase_logger/src/supabase_insert.dart';
 
-    setUp(() {
-      // Additional setup goes here.
-    });
+Future<void> main() async {
+	var env = DotEnv()..load();
 
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
-    });
-  });
+	String url = env['SUPABASE_URL'].toString();
+	String anonKey = env['SUPABASE_ANON_KEY'].toString();
+
+	var supabaseInsert = SupabaseInsert(url, anonKey, 'Error Log');
+	
+	var client = supabaseInsert.init();
+
+	supabaseInsert.insert(client, '9eb6161e-ee90-4f8a-8383-644efbbb08f2', 'test');
 }
